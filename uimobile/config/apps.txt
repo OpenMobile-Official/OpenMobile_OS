@@ -1,0 +1,11 @@
+Calculator
+Browser
+Camera
+Gallery
+Settings
+Messages
+Music
+Notes
+Clock
+Weather
+App Store Thing

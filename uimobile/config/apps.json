@@ -1,0 +1,6 @@
+[
+  { "name": "TestApp",     "command": "python3 apps/TestApp/testapp.py" },
+  { "name": "Settings",      "command": "python3 apps/Settings/settings.py" },
+  { "name": "File Manager",      "command": "python3 apps/files/file_manager.py" }
+
+]
