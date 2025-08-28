@@ -1,6 +1,8 @@
 # OpenMobile_OS
 This is just the files for my open source rpi/sbc os made for touchscreens. This is still in development.
 
+# This is still in development, there is no apps preinstalled. No point setting it up now.
+
 Currently to run it:
 1. Download the files
 2. Install raspbian os lite
