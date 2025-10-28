@@ -16,7 +16,7 @@
     "": ""
   },
   {
-    "App:": "Touch_calculator",
+    "App:": "touch_calculator",
     "ID:": "00003",
     "File:": "touch_calculator.zip",
     "Desc:": "A simple scientific calculator which converts values",
