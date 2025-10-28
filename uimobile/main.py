@@ -11,6 +11,22 @@ TO_JSON = os.path.join(CONFIG_FOLDER, 'boot.json')
 CONFIG_JSON = os.path.join(CONFIG_FOLDER, 'config.json')
 KEY_FILE = os.path.join(CONFIG_FOLDER, 'user.enc')  # Encrypted key file
 LOGO_PATH = 'logo.png'
+NOTIFICATIONS_LOG = os.path.join(CONFIG_FOLDER, 'notifications_log.txt')
+
+# --- Auto-clear notification history ---
+try:
+    if os.path.exists(NOTIFICATIONS_LOG):
+        with open(NOTIFICATIONS_LOG, "w", encoding="utf-8") as f:
+            f.write("=== Notification Log Cleared on Boot ===\n")
+        print("🧹 Cleared notification history.")
+    else:
+        # Ensure config folder exists and create an empty log
+        os.makedirs(CONFIG_FOLDER, exist_ok=True)
+        with open(NOTIFICATIONS_LOG, "w", encoding="utf-8") as f:
+            f.write("=== Notification Log Initialized ===\n")
+        print("🧾 Notification log initialized.")
+except Exception as e:
+    print(f"⚠️ Failed to clear notification history: {e}")
 
 # --- Load configuration ---
 try:
@@ -48,15 +64,10 @@ try:
     # Scale to fit within 80% width and 60% height of window
     max_width = win_w * 0.8
     max_height = win_h * 0.6
-
-    scale_w = max_width / logo_w
-    scale_h = max_height / logo_h
-    scale_factor = min(scale_w, scale_h, 1)
-
+    scale_factor = min(max_width / logo_w, max_height / logo_h, 1)
     new_size = (int(logo_w * scale_factor), int(logo_h * scale_factor))
     logo = pygame.transform.smoothscale(logo, new_size)
     logo_rect = logo.get_rect(center=(win_w // 2, win_h // 2))
-
 except Exception as e:
     print(f"Error loading logo: {e}")
     pygame.quit()
@@ -71,11 +82,7 @@ while booting:
             pygame.quit()
             sys.exit()
 
-    if background:
-        screen.fill((255, 255, 255)) 
-    else:
-        screen.fill((255, 255, 255))  # White fallback
-
+    screen.fill((255, 255, 255))
     screen.blit(logo, logo_rect)
 
     # Booting text
