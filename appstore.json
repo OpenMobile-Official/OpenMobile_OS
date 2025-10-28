@@ -1,6 +1,6 @@
 [
   {
-    "App:": " Clock",
+    "App:": "Clock",
     "ID:": "00001",
     "File:": "clock.zip",
     "Desc:": "A very simple digital clock. ",
@@ -16,11 +16,11 @@
     "": ""
   },
   {
-    "App:": "",
-    "ID:": "",
-    "File:": "",
-    "Desc:": "",
-    "Thumb:": "",
+    "App:": "Touch Calculator",
+    "ID:": "00003",
+    "File:": "touch_calculator.zip",
+    "Desc:": "A simple scientific calculator which converts values",
+    "Thumb:": "touch_calculator",
     "": ""
   },
   {
