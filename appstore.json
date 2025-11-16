@@ -41,8 +41,8 @@
   },
   {
     "App:": "StopWatch",
-    "ID:": "",
-    "File:": "00006",
+    "ID:": "00006",
+    "File:": "StopWatch.zip",
     "Desc:": "A simple stopwatch with lap support",
     "Thumb:": "StopWatch",
     "": ""
