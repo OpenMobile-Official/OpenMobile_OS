@@ -1,0 +1,5 @@
+[
+  {"name": "Test App", "command": "notepad"},
+  {"name": "Another App", "command": "calc"}
+]
+    

@@ -1,0 +1,14 @@
+[
+    {
+        "name": "System",
+        "apps": [
+            "Files",
+            "System",
+            "Settings",
+            "Legacy Files",
+            "TestApp",
+            "Help",
+            "Appstore"
+        ]
+    }
+]

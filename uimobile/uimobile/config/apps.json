@@ -1,0 +1,34 @@
+[
+  {
+    "name": "TestApp",
+    "command": "python3 apps/TestApp/testapp.py"
+  },
+  {
+    "name": "Settings",
+    "command": "python3 apps/Settings/settings.py"
+  },
+  {
+    "name": "Kit",
+    "command": "python3 apps/kit/kit.py"
+  },
+  {
+    "name": "Legacy Files",
+    "command": "python3 apps/legacy_files/file_manager.py"
+  },
+  {
+    "name": "Files",
+    "command": "python3 apps/files/files.py"
+  },
+  {
+    "name": "Appstore",
+    "command": "python3 apps/appstore/appstore.py"
+  },
+  {
+    "name": "Help",
+    "command": "python3 apps/help/help.py"
+  },
+  {
+    "name": "Jex",
+    "command": "python3 apps/jex/jex.py"
+  }
+]

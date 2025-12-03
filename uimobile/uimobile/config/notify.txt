@@ -1,0 +1,1 @@
+message="Welcome to the new version of open mobile os Beta V3_0. To check the update log and new features, click system -> then click on help"

@@ -1,0 +1,7 @@
+sympy
+pygame
+cryptography.fernet import Fernet
+pip install pygame-html
+pip install beautifulsoup4
+pip install pillow
+pip3 install pyperclip    

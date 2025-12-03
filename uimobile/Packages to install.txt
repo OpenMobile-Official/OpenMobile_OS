@@ -1,3 +1,0 @@
-sympy
-pygame
-cryptography.fernet import Fernet

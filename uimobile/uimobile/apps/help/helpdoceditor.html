@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HelpDoc Editor</title>
+<style>
+    body { font-family: Arial; margin: 0; padding: 0; background: #f0f0f0; }
+    #toolbar { background: #2c3e50; color: white; padding: 8px; display: flex; gap: 8px; }
+    #toolbar button { padding: 5px 10px; cursor: pointer; border-radius: 4px; border: none; background: #34495e; color: white; }
+    #toolbar button:hover { background: #4b6584; }
+    #editor { padding: 20px; background: white; margin: 10px; border-radius: 8px; max-width: 900px; }
+    h2 { margin-top: 20px; }
+    textarea { width: 100%; box-sizing: border-box; font-family: monospace; font-size: 14px; margin-top: 5px; }
+    table { border-collapse: collapse; margin-top: 5px; width: 100%; }
+    table, td, th { border: 1px solid #888; }
+    td, th { padding: 5px; }
+    .section { border: 1px solid #ccc; padding: 10px; margin-top: 10px; border-radius: 6px; background: #f9f9f9; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+    <button onclick="addSection()">Add Section</button>
+    <button onclick="saveHelpDoc()">Save</button>
+    <button onclick="document.getElementById('fileInput').click()">Open</button>
+    <input type="file" id="fileInput" accept=".helpdoc" style="display:none">
+</div>
+
+<div id="editor">
+    <label>Title:</label>
+    <input type="text" id="title" style="width: 100%; font-size: 18px; margin-bottom: 10px;">
+    <div id="sections"></div>
+</div>
+
+<script>
+let helpDoc = {
+    title: "",
+    sections: []
+};
+
+// Add a new empty section
+function addSection() {
+    const sec = { header: "", text: "", image: "", table: "" };
+    helpDoc.sections.push(sec);
+    renderSections();
+}
+
+// Render all sections
+function renderSections() {
+    const container = document.getElementById("sections");
+    container.innerHTML = "";
+    helpDoc.sections.forEach((sec, idx) => {
+        const div = document.createElement("div");
+        div.className = "section";
+        div.innerHTML = `
+            <label>Header:</label>
+            <input type="text" value="${sec.header}" oninput="helpDoc.sections[${idx}].header=this.value"><br>
+            <label>Text:</label>
+            <textarea rows="4" oninput="helpDoc.sections[${idx}].text=this.value">${sec.text}</textarea><br>
+            <label>Image:</label>
+            <input type="text" value="${sec.image}" oninput="helpDoc.sections[${idx}].image=this.value"><br>
+            <label>Table (Markdown style | pipe |):</label>
+            <textarea rows="4" oninput="helpDoc.sections[${idx}].table=this.value">${sec.table}</textarea><br>
+            <button onclick="removeSection(${idx})">Remove Section</button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+// Remove section
+function removeSection(idx) {
+    helpDoc.sections.splice(idx, 1);
+    renderSections();
+}
+
+// Save HelpDoc to file
+function saveHelpDoc() {
+    helpDoc.title = document.getElementById("title").value;
+    let content = `TITLE: ${helpDoc.title}\n\n`;
+    helpDoc.sections.forEach(sec => {
+        content += `SECTION:\n`;
+        if(sec.header) content += `HEADER: ${sec.header}\n`;
+        if(sec.text) content += `TEXT:\n${sec.text}\n`;
+        if(sec.image) content += `IMAGE: ${sec.image}\n`;
+        if(sec.table) content += `TABLE:\n${sec.table}\n`;
+        content += `\n`;
+    });
+    const blob = new Blob([content], {type: "text/plain"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "document.helpdoc";
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+// Open existing helpdoc
+const fileInput = document.getElementById("fileInput");
+fileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        parseHelpDoc(event.target.result);
+    };
+    reader.readAsText(file);
+});
+
+// Parse helpdoc content
+function parseHelpDoc(content) {
+    const lines = content.split("\n");
+    helpDoc = { title: "", sections: [] };
+    let currentSection = null;
+
+    for(let line of lines) {
+        line = line.trim();
+        if(line.startsWith("TITLE:")) {
+            helpDoc.title = line.slice(6).trim();
+            document.getElementById("title").value = helpDoc.title;
+        } else if(line.startsWith("SECTION:")) {
+            currentSection = { header: "", text: "", image: "", table: "" };
+            helpDoc.sections.push(currentSection);
+        } else if(line.startsWith("HEADER:") && currentSection) {
+            currentSection.header = line.slice(7).trim();
+        } else if(line.startsWith("TEXT:") && currentSection) {
+            currentSection.text = "";
+        } else if(currentSection && currentSection.text !== undefined && !line.startsWith("IMAGE:") && !line.startsWith("TABLE:") && line !== "") {
+            currentSection.text += line + "\n";
+        } else if(line.startsWith("IMAGE:") && currentSection) {
+            currentSection.image = line.slice(6).trim();
+        } else if(line.startsWith("TABLE:") && currentSection) {
+            currentSection.table = "";
+        } else if(currentSection && currentSection.table !== undefined && line.includes("|")) {
+            currentSection.table += line + "\n";
+        }
+    }
+    renderSections();
+}
+</script>
+
+</body>
+</html>
